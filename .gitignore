@@ -1,0 +1,22 @@
+# Исключить виртуальное окружение Python
+venv/
+.env/
+*.pyc
+__pycache__/
+
+# Исключить логи
+*.log
+logs/
+
+# Исключить артефакты сборки
+build/
+dist/
+*.egg-info/
+
+# Исключить файлы IDE
+.idea/
+.vscode/
+
+# Исключить системные файлы
+.DS_Store
+Thumbs.db
