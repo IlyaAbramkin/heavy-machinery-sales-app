@@ -14,9 +14,9 @@ async def add_users():
             name = fake.name() 
             user = User(
                 name=name, 
-                email=name.lower().replace(" ", "_")+'@gmail.com',
-                password_hash = fake.password(),
+                email=name.lower().replace(" ", "_")+'@gmail.com'
             )
+            user.password = fake.password()
             users.append(user)
 
         session.add_all(users)
