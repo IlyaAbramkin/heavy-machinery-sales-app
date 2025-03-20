@@ -4,6 +4,7 @@ import enum
 import datetime
 from typing import Optional
 from database import Base
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(Base):
@@ -13,6 +14,17 @@ class User(Base):
     email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
     password_hash: Mapped[str] = mapped_column(String, nullable=False)
     name: Mapped[str] = mapped_column(String, nullable=True)
+    
+    @property
+    def password(self):
+        raise AttributeError('password is not a readable attribute')
+    
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+    
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 class Category(Base):
     __tablename__ = "categories"
