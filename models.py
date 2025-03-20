@@ -14,7 +14,7 @@ class User(Base):
     email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
     password_hash: Mapped[str] = mapped_column(String, nullable=False)
     name: Mapped[str] = mapped_column(String, nullable=True)
-    
+
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')
@@ -66,12 +66,12 @@ class Vehicle(Base):
     year: Mapped[int] = mapped_column(Integer, nullable=False)
     color: Mapped[str] = mapped_column(String, nullable=False)
 
-    category_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("categories.category_id"), nullable=True)
-    factory_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("factories.factory_id"), nullable=True)
-    chassis_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("chassis.chassis_id"), nullable=True)
-    wheel_formula_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("wheel_formulas.wheel_formula_id"), nullable=True)
-    engine_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("engines.engine_id"), nullable=True)
-    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.user_id"), nullable=False)
+    category_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("categories.category_id", ondelete="CASCADE"), nullable=True)
+    factory_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("factories.factory_id", ondelete="CASCADE"), nullable=True)
+    chassis_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("chassis.chassis_id", ondelete="CASCADE"), nullable=True)
+    wheel_formula_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("wheel_formulas.wheel_formula_id", ondelete="CASCADE"), nullable=True)
+    engine_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("engines.engine_id", ondelete="CASCADE"), nullable=True)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.user_id", ondelete="CASCADE"), nullable=False)
 
     category: Mapped["Category"] = relationship("Category", backref="vehicles")
     factory: Mapped["Factory"] = relationship("Factory", backref="vehicles")
@@ -86,8 +86,8 @@ class PriceList(Base):
     price_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     price: Mapped[int] = mapped_column(Integer, nullable=False)
     delivery_time: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=False)
-    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.user_id"), nullable=False)
-    vehicle_id: Mapped[int] = mapped_column(Integer, ForeignKey("vehicles.vehicle_id"), nullable=False)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.user_id", ondelete="CASCADE"), nullable=False)
+    vehicle_id: Mapped[int] = mapped_column(Integer, ForeignKey("vehicles.vehicle_id", ondelete="CASCADE"), nullable=False)
 
     vehicle: Mapped["Vehicle"] = relationship("Vehicle", backref="price_lists")
 
@@ -123,15 +123,15 @@ class Requests(Base):
     delivery_type: Mapped[DeliveryTypeEnum] = mapped_column(Enum(DeliveryTypeEnum), nullable=False)
     status: Mapped[RequestStatusEnum] = mapped_column(Enum(RequestStatusEnum), nullable=False)
 
-    user_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("users.user_id"), nullable=True)
+    user_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("users.user_id", ondelete="CASCADE"), nullable=True)
 
     user: Mapped["User"] = relationship("User", backref="requests")
 
 class TovaryVZayavke(Base):
     __tablename__ = "requisitioned_goods"
 
-    request_id: Mapped[int] = mapped_column(Integer, ForeignKey("requests.request_id"), primary_key=True, nullable=False)
-    vehicle_id: Mapped[int] = mapped_column(Integer, ForeignKey("vehicles.vehicle_id"), primary_key=True, nullable=False)
+    request_id: Mapped[int] = mapped_column(Integer, ForeignKey("requests.request_id", ondelete="CASCADE"), primary_key=True)
+    vehicle_id: Mapped[int] = mapped_column(Integer, ForeignKey("vehicles.vehicle_id", ondelete="CASCADE"), primary_key=True)
     quantity: Mapped[int] = mapped_column(Integer, nullable=False)
 
     request: Mapped["Requests"] = relationship("Requests", backref="tovary_v_zayavke")
@@ -144,6 +144,6 @@ class News(Base):
     title: Mapped[str] = mapped_column(String(100), nullable=False)
     publication_date: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=False)
     content: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
-    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.user_id"), nullable=False)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.user_id", ondelete="CASCADE"), nullable=False)
 
     user: Mapped["User"] = relationship("User", backref="news")
