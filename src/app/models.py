@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 import enum
 import datetime
 from typing import Optional
-from .core.database import Base
+from src.app.core.database import Base
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
