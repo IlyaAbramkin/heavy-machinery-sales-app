@@ -262,9 +262,31 @@ const HomePage = () => {
               <p className="card-text">
                 Мы осуществляем доставку техники в любой регион России.
               </p>
+              <a
+          href="https://wa.me/79991234567"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-success mt-3"
+        >
+          Напишите нам в WhatsApp
+        </a>
             </div>
           </div>
         </div>
+
+        <div className="row mt-5">
+        <div className="col-12">
+          <h2 className="text-center mb-4">Логистика</h2>
+          <iframe
+            src="https://www.transportdepot.ru/transportation/calculate-the-distance.html"
+            width="1300"
+            height="600"
+            scrolling="auto"
+            title="Логистика"
+            style={{ border: 'none' }}
+          ></iframe>
+        </div>
+      </div>
       </div>
     </div>
   );
