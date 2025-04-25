@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#f8f9fa"/>
+  <text x="400" y="300" font-family="Arial, sans-serif" font-size="32" fill="#adb5bd" text-anchor="middle">Изображение новости</text>
+  <g fill="none" stroke="#ced4da" stroke-width="4">
+    <rect x="250" y="200" width="300" height="200" rx="10" ry="10"/>
+    <line x1="300" y1="250" x2="500" y2="250"/>
+    <line x1="300" y1="300" x2="500" y2="300"/>
+    <line x1="300" y1="350" x2="500" y2="350"/>
+    <circle cx="400" cy="150" r="50"/>
+  </g>
+</svg> 

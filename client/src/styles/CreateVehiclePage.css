@@ -1,0 +1,46 @@
+.create-vehicle-form {
+  margin-bottom: 2rem;
+}
+
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-section-title {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.form-field {
+  margin-bottom: 1rem;
+}
+
+.submit-button {
+  margin-top: 1rem;
+}
+
+.reference-select {
+  width: 100%;
+}
+
+.preview-container {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  margin-top: 1rem;
+}
+
+.preview-header {
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.preview-detail {
+  margin-bottom: 0.5rem;
+}
+
+.preview-label {
+  font-weight: 500;
+  margin-right: 0.5rem;
+} 
