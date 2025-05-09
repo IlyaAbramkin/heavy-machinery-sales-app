@@ -107,6 +107,22 @@ const AdminDashboardPage = () => {
     }
   };
 
+  // Функция актуализации даты публикации
+  const handleUpdatePublicationDate = async (id) => {
+    try {
+      await vehiclesApi.updatePublicationDate(id);
+      
+      // Обновляем список публикаций, чтобы отразить новую дату
+      const updatedVehicles = await vehiclesApi.getAll();
+      setAllVehicles(updatedVehicles.data);
+      
+      alert('Дата публикации успешно обновлена');
+    } catch (err) {
+      console.error('Error updating publication date:', err);
+      alert('Не удалось обновить дату публикации');
+    }
+  };
+
   // Функция удаления новости
   const handleDeleteNews = async (id) => {
     if (window.confirm('Вы уверены, что хотите удалить эту новость?')) {
@@ -181,6 +197,11 @@ const AdminDashboardPage = () => {
           <div className="card shadow-sm">
             <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
               <h3 className="h5 mb-0">Все публикации о продаже техники</h3>
+              <div>
+                <Link to="/profile/create-vehicle" className="btn btn-light btn-sm ms-2">
+                  Добавить технику
+                </Link>
+              </div>
             </div>
             <div className="card-body">
               {vehiclesError && (
@@ -209,6 +230,7 @@ const AdminDashboardPage = () => {
                         <th>Категория</th>
                         <th>Год</th>
                         <th>Пользователь</th>
+                        <th>Дата публикации</th>
                         <th>Действия</th>
                       </tr>
                     </thead>
@@ -220,6 +242,7 @@ const AdminDashboardPage = () => {
                           <td>{vehicle.category?.name || '-'}</td>
                           <td>{vehicle.year}</td>
                           <td>{vehicle.user_id}</td>
+                          <td>{formatDate(vehicle.publication_date)}</td>
                           <td>
                             <div className="btn-group">
                               <Link 
@@ -234,6 +257,12 @@ const AdminDashboardPage = () => {
                               >
                                 Редактировать
                               </Link>
+                              <button
+                                className="btn btn-sm btn-outline-success me-2"
+                                onClick={() => handleUpdatePublicationDate(vehicle.vehicle_id)}
+                              >
+                                Актуализировать
+                              </button>
                               <button 
                                 onClick={() => handleDeleteVehicle(vehicle.vehicle_id)} 
                                 className="btn btn-sm btn-outline-danger"
