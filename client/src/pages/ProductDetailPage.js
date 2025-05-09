@@ -187,6 +187,10 @@ const ProductDetailPage = () => {
               <strong>{vehicle.year}</strong>
             </li>
             <li className="list-group-item d-flex justify-content-between">
+              <span>Дата публикации:</span>
+              <strong>{new Date(vehicle.publication_date).toLocaleDateString()}</strong>
+            </li>
+            <li className="list-group-item d-flex justify-content-between">
               <span>Цвет:</span>
               <strong>{vehicle.color}</strong>
             </li>
