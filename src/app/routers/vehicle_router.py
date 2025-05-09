@@ -7,7 +7,7 @@ from sqlalchemy import select
 from ..models import Vehicle, User, PriceList
 from ..schemas import VehicleCreate, VehicleRead, VehicleUpdate
 from ..repository import BaseRepository
-from ..core.dependencies import get_db, get_current_active_user
+from ..core.dependencies import get_db, get_current_active_user, get_current_admin_user
 
 router = APIRouter(prefix="/vehicles", tags=["vehicles"])
 vehicle_repository = BaseRepository(Vehicle)
@@ -54,6 +54,7 @@ async def create_vehicle(
 ):
     vehicle_dict = vehicle_data.model_dump()
     vehicle_dict["user_id"] = current_user.user_id
+    vehicle_dict["publication_date"] = datetime.now()
     
     vehicle = await vehicle_repository.create(db, vehicle_dict)
     
@@ -163,4 +164,21 @@ async def get_my_vehicles(
     if not vehicles:
         return []
     
-    return [Vehicle(**dict(vehicle._mapping)) for vehicle in vehicles] 
+    return [Vehicle(**dict(vehicle._mapping)) for vehicle in vehicles]
+
+# Обновление даты публикации для одного транспортного средства (только для админа)
+@router.put("/{vehicle_id}/update-publication-date", response_model=VehicleRead)
+async def update_vehicle_publication_date(
+    vehicle_id: int, 
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_admin_user)
+):
+    vehicle = await vehicle_repository.get_by_id(db, vehicle_id)
+    if vehicle is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Vehicle not found")
+    
+    # Обновляем дату публикации на текущую
+    updated_data = {"publication_date": datetime.now()}
+    updated_vehicle = await vehicle_repository.update(db, vehicle_id, updated_data)
+    
+    return updated_vehicle 
