@@ -1,9 +1,9 @@
 from sqlalchemy import Text, ForeignKey, Integer, String, DateTime, Enum, Boolean
-from sqlalchemy.orm import relationship, Mapped, mapped_column
+from sqlalchemy.orm import relationship, Mapped, mapped_column, DeclarativeBase
 import enum
 import datetime
 from typing import Optional
-from src.app.core.database import Base
+from .core.database import Base
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -68,6 +68,7 @@ class Vehicle(Base):
     year: Mapped[int] = mapped_column(Integer, nullable=False)
     color: Mapped[str] = mapped_column(String, nullable=False)
     image_path: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    publication_date: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=False, default=datetime.datetime.now)
 
     category_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("categories.category_id", ondelete="CASCADE"), nullable=True)
     factory_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("factories.factory_id", ondelete="CASCADE"), nullable=True)
