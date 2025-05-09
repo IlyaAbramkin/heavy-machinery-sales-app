@@ -13,7 +13,8 @@ const HomePage = () => {
     const fetchData = async () => {
       try {
         // Получаем рекомендуемые товары
-        const vehiclesResponse = await vehiclesApi.getAll({ limit: 6 });
+        // const vehiclesResponse = await vehiclesApi.getAll({ limit: 6 });
+        const vehiclesResponse = await vehiclesApi.getAll(6);
         setFeaturedVehicles(vehiclesResponse.data);
 
         // Получаем все категории
@@ -220,7 +221,7 @@ const HomePage = () => {
                           Подробнее
                         </Link>
                       </div>
-                      <div className="text-muted">Год: {vehicle.year}</div>
+                      <div className="text-muted">Дата: {new Date(vehicle.publication_date).toLocaleDateString()}</div>
                     </div>
                   </div>
                 </div>
@@ -275,15 +276,29 @@ const HomePage = () => {
         </div>
 
         <div className="row mt-5">
-        <div className="col-12">
+        <div className="col-12"
+        style={{
+          width: '100%',
+          height: '600px',
+          overflow: 'hidden',
+          position: 'relative'
+        }}
+        >
           <h2 className="text-center mb-4">Логистика</h2>
           <iframe
-            src="https://www.transportdepot.ru/transportation/calculate-the-distance.html"
+            src="https://azlog.ru/calc/"
             width="1300"
             height="600"
-            scrolling="auto"
+            scrolling="yes"
             title="Логистика"
-            style={{ border: 'none' }}
+            style={{
+              border: 'none',
+              width: '100%',
+              height: '1000px',
+              position: 'absolute',
+              top: '-280px',
+              left: '0'
+             }}
           ></iframe>
         </div>
       </div>
