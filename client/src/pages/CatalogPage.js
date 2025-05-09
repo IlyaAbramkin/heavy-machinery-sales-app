@@ -207,7 +207,7 @@ const CatalogPage = () => {
                         : 'Нет описания'}
                     </p>
                     <ul className="list-unstyled mb-3">
-                      <li><strong>Год:</strong> {vehicle.year}</li>
+                      <li><strong>Опубликовано:</strong> {new Date(vehicle.publication_date).toLocaleDateString()}</li>
                       <li><strong>Цвет:</strong> {vehicle.color}</li>
                       {vehicle.category && (
                         <li><strong>Категория:</strong> {vehicle.category.name}</li>
