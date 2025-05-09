@@ -130,10 +130,12 @@ class VehicleBase(BaseModel):
 
 class VehicleCreate(VehicleBase):
     user_id: int
+    publication_date: datetime = Field(default_factory=datetime.now)
 
 class VehicleRead(VehicleBase):
     vehicle_id: int
     user_id: int
+    publication_date: datetime
     model_config = ConfigDict(from_attributes=True)
 
 class VehicleUpdate(BaseModel):
@@ -147,6 +149,7 @@ class VehicleUpdate(BaseModel):
     chassis_id: Optional[int] = None
     wheel_formula_id: Optional[int] = None
     engine_id: Optional[int] = None
+    publication_date: Optional[datetime] = None
 
 # Схемы прайс-листа
 class PriceListBase(BaseModel):
