@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Базовый URL для API
-axios.defaults.baseURL = 'http://localhost:8000';
+// axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.withCredentials = true;
 
 // API для работы с пользователями
@@ -20,12 +20,14 @@ export const usersApi = {
 
 // API для работы с транспортными средствами
 export const vehiclesApi = {
-  getAll: (params) => axios.get('/vehicles', { params }),
+  // getAll: (params) => axios.get('/vehicles', { params }),
+  getAll: (limit) => axios.get('/vehicles', { params: {limit} }),
   getById: (id) => axios.get(`/vehicles/${id}`),
   create: (data) => axios.post('/vehicles', data),
   update: (id, data) => axios.put(`/vehicles/${id}`, data),
   delete: (id) => axios.delete(`/vehicles/${id}`),
   getUserVehicles: () => axios.get('/vehicles/my/'),
+  updatePublicationDate: (id) => axios.put(`/vehicles/${id}/update-publication-date`),
 };
 
 // API для работы с категориями
