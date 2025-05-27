@@ -2,10 +2,12 @@
 services:
   db:
     image: postgres:13
+    env_file:
+      - ./src/.env
     environment:
-      - POSTGRES_PASSWORD=12345
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_DB=${DB_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
