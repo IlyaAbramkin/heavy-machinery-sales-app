@@ -13,12 +13,39 @@ api.interceptors.request.use(config => {
     return config
 })
 
+api.interceptors.response.use(
+    response => response,
+    async (error) => {
+        const originalRequest = error.config;
+        
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            
+            try {
+                // Пытаемся обновить токены
+                const response = await userApi.refreshToken();
+                localStorage.setItem('token', response.data.access_token);
+                // Повторяем оригинальный запрос
+                return api(originalRequest);
+            } catch (refreshError) {
+                // Если обновление не удалось
+                localStorage.removeItem('token');
+                window.location.href = '/';
+                return Promise.reject(refreshError);
+            }
+        }
+        
+        return Promise.reject(error);
+    }
+);
+
 export const userApi = {
     getAll: () => api.get('/users'),
     getById: (id) => api.get(`/users/${id}`),
     create: (data) => api.post('/users', data),
     update: (id, data) => api.put(`/users/${id}`, data),
     delete: (id) => api.delete(`/users/${id}`),
+    refreshToken: () => api.post('/auth/refresh'),
 
     login: (data) => api.post('/auth/login', new URLSearchParams({
         username: data.email,
